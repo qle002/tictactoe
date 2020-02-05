@@ -2,6 +2,7 @@ import random
 
 # Display the board
 def display_board(board):
+    print('\n' * 100)
     print(board[1] + ' | ' + board[2] + ' | ' + board[3])
     print('---------')
     print(board[4] + ' | ' + board[5] + ' | ' + board[6])
@@ -26,6 +27,7 @@ def place_marker(board, marker, position):
 
 # Check whether a player has won the game
 def win_check(board, mark):
+    # Check all rows, columns, and diagnals to see if marker matches
     return ((board[1] == mark and board[2] == mark and board[3] == mark) or # First horizontal
             (board[4] == mark and board[5] == mark and board[6] == mark) or # Second horizontal
             (board[7] == mark and board[8] == mark and board[9] == mark) or # Third horizontal
@@ -51,6 +53,8 @@ def full_board_check(board):
     for i in range(1, 10):
         if space_check(board, i):
             return False
+    
+    # Board is full if return True
     return True
 
 # Ask for the player's next position
@@ -76,7 +80,7 @@ while True:
     player1, player2 = player_input()
 
     turn = choose_first()
-    print(turn + ' will play first')
+    print(turn + ' will go first')
 
     play = input('Are you ready to play? Enter Yes or No: ')
 
@@ -88,30 +92,31 @@ while True:
     while gameOn:
         # If this is player 1 turn, place player 1 marker on the desired position
         if turn == 'player1':
-            display_board(board)
-            pos = player_choice(board)
-            place_marker(board, player1, pos)
+            display_board(board) # Show the board
+            pos = player_choice(board) # Choose a position
+            place_marker(board, player1, pos) # Place the marker on the position
 
-            # Check if player 1 has won the game else continue playing or display that the game is a tie
+            # Check if player 1 has won the game
             if win_check(board, player1):
                 display_board(board)
-                print('PLayer 1 has won')
+                print('Player 1 has won')
                 gameOn = False
             else:
+                # Check if the game is tie
                 if full_board_check(board):
                     display_board(board)
                     print('Game Tie')
                     break
+                # If nobody wins or the game is tied, then continue with player 2's turn
                 else:
                     turn = 'player2'
 
-        # If this is player 2 turn, place player 2 marker on the desired position
+        # This is the same as player 1's code
         else:
             display_board(board)
             pos = player_choice(board)
             place_marker(board, player2, pos)
 
-            # Check if player 2 has won the game else continue playing or display that the game is a tie
             if win_check(board, player2):
                 display_board(board)
                 print('Player 2 has won')
@@ -119,7 +124,7 @@ while True:
             else:
                 if full_board_check(board):
                     display_board(board)
-                    print('Tie')
+                    print('Game Tie')
                     break
                 else:
                     turn = 'player1'
